@@ -1,0 +1,51 @@
+---
+import { DEFAULT_LOCALE, LOCALES } from '@/i18n';
+import Layout from '@/layouts/layout.astro';
+
+Astro.response.status = 404;
+Astro.response.statusText = 'Not Found';
+
+const langs = Object.keys(LOCALES);
+const baseUrl = import.meta.env.PROD ? Astro.site : '/';
+const defaultLocale = DEFAULT_LOCALE;
+---
+
+<noscript>
+  <meta
+    http-equiv="refresh"
+    content={`0;url=${baseUrl + DEFAULT_LOCALE}/404/`}
+  />
+</noscript>
+
+<script is:inline define:vars={{ langs, baseUrl, defaultLocale }}>
+  (() => {
+    const currentLang = location.pathname.split('/')[1];
+    if (langs.includes(currentLang)) {
+      localStorage.userAccessPath = location.pathname;
+      location.href = `${baseUrl + currentLang}/404/`;
+      return;
+    }
+    if (
+      localStorage.selectedLang &&
+      langs.includes(localStorage.selectedLang)
+    ) {
+      location.href = baseUrl + localStorage.selectedLang + location.pathname;
+      return;
+    }
+    if (document.referrer) {
+      const referrerURL = new URL(document.referrer);
+      if (referrerURL.host == location.host) {
+        const referrerLang = referrerURL.pathname.split('/')[1];
+        if (langs.includes(referrerLang)) {
+          location.href = baseUrl + referrerLang + location.pathname;
+          return;
+        }
+      }
+    }
+    location.href = baseUrl + defaultLocale + location.pathname;
+  })();
+</script>
+
+<Layout title="404" showLocaleSuggest={false} showHeader={false}>
+  <h1>404</h1>
+</Layout>

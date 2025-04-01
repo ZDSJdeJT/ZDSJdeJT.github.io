@@ -1,0 +1,118 @@
+---
+import { Image } from 'astro:assets';
+
+import avatar from '@/assets/avatar.png';
+import { Photo } from '@/components/photo';
+import { Section } from '@/components/section';
+import { EMAIL } from '@/consts';
+import { useTranslations, type Lang } from '@/i18n';
+
+const currentLocale = Astro.currentLocale as Lang;
+
+const t = useTranslations(currentLocale);
+
+const email = t(EMAIL);
+
+type Item = {
+  label: string;
+  value: string;
+};
+
+const name = t({
+  en: 'Echo',
+  'zh-cn': '张思涵',
+});
+
+const basicInformationList: Item[] = [
+  {
+    label: t({
+      en: 'Name:&nbsp;',
+      'zh-cn': '姓名：',
+    }),
+    value: name,
+  },
+  {
+    label: t({
+      en: 'Gender:&nbsp;',
+      'zh-cn': '性别：',
+    }),
+    value: t({
+      en: 'Male',
+      'zh-cn': '男',
+    }),
+  },
+  {
+    label: t({
+      en: 'Education:&nbsp;',
+      'zh-cn': '学历：',
+    }),
+    value: t({
+      en: 'Bachelor',
+      'zh-cn': '本科',
+    }),
+  },
+  {
+    label: t({
+      en: 'Birthday:&nbsp;',
+      'zh-cn': '生日：',
+    }),
+    value: new Date('1999/12/10').toLocaleDateString(currentLocale, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }),
+  },
+  {
+    label: t({
+      en: 'Intention:&nbsp;',
+      'zh-cn': '意向：',
+    }),
+    value: t({
+      en: '<strong>Frontend Developer</strong>',
+      'zh-cn': '<strong>前端开发工程师</strong>',
+    }),
+  },
+];
+---
+
+<Section
+  id="basic-information"
+  title={t({
+    en: 'Basic Information',
+    'zh-cn': '基本信息',
+  })}
+  subtitle="😀"
+  className="@container flex flex-col gap-2"
+>
+  <div
+    class="flex flex-col gap-4 @sm:flex-row-reverse @sm:items-center @md:flex-row-reverse @md:items-center"
+  >
+    <Photo
+      client:load
+      className="flex-shrink-0 self-center"
+      cursorText={t({
+        en: 'Hire me?',
+        'zh-cn': '雇佣我？',
+      })}
+    >
+      <a href={`mailto:${email}`} target="_blank">
+        <Image
+          src={avatar}
+          alt={name}
+          loading="eager"
+          class="h-[96px] w-[96px] rounded-full transition-transform hover:scale-115"
+        />
+      </a>
+    </Photo>
+    <ul class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
+      {
+        basicInformationList.map(({ label, value }) => (
+          <li class="flex items-center">
+            <span class="whitespace-nowrap" set:html={label} />
+            <span set:html={value} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Section>

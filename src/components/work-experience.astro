@@ -1,0 +1,137 @@
+---
+import { Section } from '@/components/section';
+import { useTranslations, type Lang } from '@/i18n';
+
+const currentLocale = Astro.currentLocale as Lang;
+
+const t = useTranslations(currentLocale);
+
+type Item = {
+  company: string;
+  website?: string;
+  position: string;
+  startDate: string;
+  endDate: string;
+  responsibilities: string[];
+};
+
+const workExperienceList: Item[] = [
+  {
+    company: t({
+      en: 'Jiangsu Juzhe Technology Co., Ltd.',
+      'zh-cn': '江苏巨泽科技有限公司',
+    }),
+    position: t({
+      en: 'Frontend Developer',
+      'zh-cn': '前端开发工程师',
+    }),
+    startDate: new Date('2021/12').toLocaleDateString(currentLocale, {
+      year: 'numeric',
+      month: 'long',
+    }),
+    endDate: new Date('2022/05').toLocaleDateString(currentLocale, {
+      year: 'numeric',
+      month: 'long',
+    }),
+    responsibilities: [
+      t({
+        en: 'Led the frontend development of the e-commerce project <strong>"Dai Xiang Er"</strong>, which included a backend management system for merchants and a mobile application for users. The project was built using <strong>Vue 2</strong> and <strong>React Native</strong>.',
+        'zh-cn':
+          '负责了电商项目“带响儿”的前端开发，该项目包括供商家使用的后台管理系统以及供用户使用的移动端应用。项目技术栈为<strong>Vue2</strong>和<strong>React Native</strong>。',
+      }),
+      t({
+        en: 'Participated in the frontend development of the fitness project <strong>"Magic Mirror"</strong>, which consisted of a backend management system for operations staff and an Android application running on smart fitness equipment. The project was developed using <strong>Vue 3</strong> and <strong>React Native</strong>. My primary responsibility was integrating smart fitness hardware via serial communication using <strong>Java</strong> (native Android) to obtain user resistance data, which was then transmitted to <strong>React Native</strong> and rendered in real-time as interactive charts on the smart fitness device screen.',
+        'zh-cn':
+          '参与了健身项目“魔镜”的前端开发，该项目包括供运营人员使用的后台管理系统以及供用户使用的在智能健身器材上运行的安卓应用。项目技术栈为<strong>Vue3</strong>和<strong>React Native</strong>。我主要负责使用<strong>Java</strong>（原生安卓）通过串口通信对接智能健身器材硬件，获取用户的拉力数据并将数据传输给<strong>React Native</strong>，最后将数据通过图表的方式实时、流畅地渲染在智能健身器材的屏幕上。',
+      }),
+    ],
+  },
+  {
+    company: t({
+      en: 'Nanjing Zhiya Network Technology Co., Ltd. (a subsidiary of Baijiayun Group)',
+      'zh-cn': '南京职芽网络科技有限公司（隶属于百家云集团有限公司）',
+    }),
+    website: 'https://www.yun88.com/product/3053.html',
+    position: t({
+      en: 'Frontend Developer',
+      'zh-cn': '前端开发工程师',
+    }),
+    startDate: new Date('2024/05').toLocaleDateString(currentLocale, {
+      year: 'numeric',
+      month: 'long',
+    }),
+    endDate: t({
+      en: 'Present',
+      'zh-cn': '至今',
+    }),
+    responsibilities: [
+      t({
+        en: 'Led the frontend development of the e-commerce project <strong>"Zhiya Welfare Campus"</strong>, which included a WeChat Mini Program for users, an Android tablet application for interview booths, and a backend management system for operations and merchants. The project utilized <strong>Vue 2</strong>, <strong>React Native</strong>, and <strong>native WeChat Mini Programs</strong>.',
+        'zh-cn':
+          '负责了电商项目“职芽福利校园”的前端开发，该项目包括供用户使用的微信小程序、面试亭内的安卓平板应用和供运营人员和商户使用的后台管理系统。项目技术栈为<strong>Vue2</strong>、<strong>React Native</strong>和<strong>原生微信小程序</strong>。',
+      }),
+      t({
+        en: 'Initiated and developed the internal tool project <strong>"Zhiya Helper"</strong>, a web-based application built with <strong>React</strong>. This tool is primarily used by in-house developers and some operations staff to streamline workflows and improve efficiency.',
+        'zh-cn':
+          '负责了工具项目“职芽小帮手”的前端开发，该项目的平台为网页，技术栈为<strong>React</strong>，主要供公司内部的开发人员和部分运营人员使用，由我个人发起。',
+      }),
+    ],
+  },
+];
+---
+
+<Section
+  id="work-experience"
+  title={t({
+    en: 'Work Experience',
+    'zh-cn': '工作经历',
+  })}
+  subtitle="💼"
+>
+  <ol class="flex flex-col gap-4">
+    {
+      workExperienceList.map(
+        ({
+          company,
+          website,
+          position,
+          startDate,
+          endDate,
+          responsibilities,
+        }) => (
+          <li class="flex flex-col gap-2">
+            <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-3">
+              <h3>
+                {website ? (
+                  <a
+                    href={website}
+                    target="_blank"
+                    rel={
+                      website.startsWith('http')
+                        ? 'noopener noreferrer'
+                        : undefined
+                    }
+                    class="underline print:no-underline"
+                  >
+                    <strong>{company}</strong>
+                  </a>
+                ) : (
+                  <strong>{company}</strong>
+                )}
+              </h3>
+              <span>{position}</span>
+              <span>
+                {startDate} - {endDate}
+              </span>
+            </div>
+            <ol class="flex flex-col gap-1">
+              {responsibilities.map((responsibility, index) => (
+                <li set:html={`${index + 1}. ${responsibility}`} />
+              ))}
+            </ol>
+          </li>
+        ),
+      )
+    }
+  </ol>
+</Section>

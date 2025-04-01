@@ -1,0 +1,67 @@
+---
+import { REPOSITORY_URL } from 'astro:env/server';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+import { GithubButton } from '@/components/github-button';
+import { LocaleToggle } from '@/components/i18n/locale-toggle';
+import { PrintButton } from '@/components/print-button';
+import { SITE_TITLE } from '@/consts';
+import { type Lang, getLocalePaths, LOCALES, useTranslations } from '@/i18n';
+
+interface Props {
+  showPrintButton: boolean;
+}
+
+const { showPrintButton } = Astro.props;
+
+const currentLocale = Astro.currentLocale as Lang;
+
+const t = useTranslations(currentLocale);
+---
+
+<header
+  class="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur print:hidden"
+>
+  <div
+    class="container mx-auto flex h-14 items-center justify-between gap-2 md:gap-4"
+  >
+    <a
+      href={getRelativeLocaleUrl(currentLocale, '/')}
+      class="flex items-center"
+    >
+      <strong>{t(SITE_TITLE)}</strong>
+      <span
+        class="motion-translate-x-loop-[10%] motion-rotate-loop-45 motion-duration-1000 motion-duration-1000/rotate"
+        >👋</span
+      >
+    </a>
+    <div class="flex items-center gap-2">
+      {REPOSITORY_URL && <GithubButton client:load link={REPOSITORY_URL} />}
+      {
+        showPrintButton && (
+          <PrintButton
+            client:load
+            label={t({
+              en: 'Print',
+              'zh-cn': '打印',
+            })}
+          />
+        )
+      }
+      <LocaleToggle
+        client:load
+        label={t({
+          en: 'Switch language',
+          'zh-cn': '切换语言',
+        })}
+        currentLocale={currentLocale}
+        locales={getLocalePaths(Astro.url).map(({ path, lang }) => ({
+          label: LOCALES[lang].label,
+          value: path,
+          lang,
+          dir: LOCALES[lang].dir,
+        }))}
+      />
+    </div>
+  </div>
+</header>

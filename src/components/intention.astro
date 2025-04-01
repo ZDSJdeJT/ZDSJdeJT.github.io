@@ -1,0 +1,24 @@
+---
+import { Section } from '@/components/section';
+import { useTranslations, type Lang } from '@/i18n';
+
+const currentLocale = Astro.currentLocale as Lang;
+
+const t = useTranslations(currentLocale);
+
+const intention = t({
+  en: `I am passionate about programming and open-source development, with a solid foundation in coding and a strong adherence to best practices. I have the ability to develop complex systems and enjoy solving real-world problems through code. My enthusiasm for technology drives me to continuously learn and grow in the field of <strong>frontend development</strong>. I embrace challenges and strive to improve my technical expertise.<br />I aspire to become a developer like <i>antfu</i> and <i>Dan Abramov</i>—someone with deep technical expertise who actively contributes to the community and drives open-source projects forward. I am seeking a dynamic and innovative team where I can collaborate, contribute, and grow. My goal is to help push the company forward while achieving new technical breakthroughs along the way.`,
+  'zh-cn': `我热爱编程与开源，拥有扎实的编程基础和良好的编码规范，具备开发复杂系统的能力。我喜欢通过代码解决实际问题，并且始终保持对技术的热情和追求。我渴望在<strong>前端开发</strong>领域不断学习和成长，愿意接受挑战，努力提升自己的技术水平。<br />我希望能够成长为像<i>antfu</i>和<i>Dan Abramov</i>那样的开发者，既有扎实的技术能力，又能积极参与社区，推动开源项目发展。我正在寻找一个充满活力和创造力的团队，期待与团队一起共同努力，推动公司的发展，并实现更高水平的技术突破。`,
+});
+---
+
+<Section
+  id="intention"
+  title={t({
+    en: 'Intention',
+    'zh-cn': '求职意向',
+  })}
+  subtitle="👀"
+>
+  <Fragment set:html={intention} />
+</Section>

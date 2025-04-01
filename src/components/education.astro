@@ -1,0 +1,191 @@
+---
+import { Section } from '@/components/section';
+import { useTranslations, type Lang } from '@/i18n';
+
+const currentLocale = Astro.currentLocale as Lang;
+
+const t = useTranslations(currentLocale);
+
+type Item = {
+  college: string;
+  website?: string;
+  major: string;
+  degree: string;
+  GPA: string;
+  ranking: string;
+  honors: string[];
+  mainCourses: string[];
+  remark: string;
+};
+
+const educationList: Item[] = [
+  {
+    college: t({
+      en: 'Jiangsu University Jingjiang College',
+      'zh-cn': '江苏大学京江学院',
+    }),
+    website: 'https://jjxy.ujs.edu.cn/',
+    major: t({
+      en: 'Software Engineering',
+      'zh-cn': '软件工程',
+    }),
+    degree: t({
+      en: 'Bachelor',
+      'zh-cn': '本科',
+    }),
+    GPA: '3.8&nbsp;/&nbsp;4.0',
+    ranking: t({
+      en: 'Top 10%',
+      'zh-cn': '前10%',
+    }),
+    honors: [
+      t({
+        en: '<strong>Excellent Student</strong>',
+        'zh-cn': '<strong>校级三好学生</strong>',
+      }),
+      t({
+        en: '<strong>Second-class Scholarship</strong>',
+        'zh-cn': '<strong>校级二等奖学金</strong>',
+      }),
+      t({
+        en: '<strong>Excellent Graduate</strong>',
+        'zh-cn': '<strong>优秀毕业生</strong>',
+      }),
+      t({
+        en: "First Prize in Badminton Men's Team at the University Sports Meet",
+        'zh-cn': '校运会羽毛球男子团体第一名成员',
+      }),
+    ],
+    mainCourses: [
+      t({
+        en: 'Java',
+        'zh-cn': 'Java',
+      }),
+      t({
+        en: 'Database',
+        'zh-cn': '数据库',
+      }),
+      t({
+        en: 'Linux',
+        'zh-cn': 'Linux',
+      }),
+      t({
+        en: 'Android Development',
+        'zh-cn': '安卓开发',
+      }),
+      t({
+        en: 'Computer Network',
+        'zh-cn': '计算机网络',
+      }),
+      t({
+        en: 'Software Testing',
+        'zh-cn': '软件测试',
+      }),
+      t({
+        en: 'Operating System',
+        'zh-cn': '操作系统',
+      }),
+      t({
+        en: 'Requirements Engineering',
+        'zh-cn': '需求工程',
+      }),
+      t({
+        en: 'Web Development',
+        'zh-cn': '网页开发',
+      }),
+      t({
+        en: 'Data Structure and Algorithms',
+        'zh-cn': '数据结构与算法',
+      }),
+    ],
+    remark: t({
+      en: 'During the school period, I served as a <strong>learning committee</strong> position.',
+      'zh-cn': '在校期间曾担任<strong>学习委员</strong>职位。',
+    }),
+  },
+];
+---
+
+<Section
+  id="education"
+  title={t({
+    en: 'Education',
+    'zh-cn': '教育背景',
+  })}
+  subtitle="🎓"
+>
+  <ol class="flex flex-col gap-4">
+    {
+      educationList.map(
+        ({
+          college,
+          website,
+          major,
+          degree,
+          GPA,
+          ranking,
+          honors,
+          mainCourses,
+          remark,
+        }) => (
+          <li class="flex flex-col gap-2">
+            <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-3">
+              <h3>
+                {website ? (
+                  <a
+                    href={website}
+                    target="_blank"
+                    rel={
+                      website.startsWith('http')
+                        ? 'noopener noreferrer'
+                        : undefined
+                    }
+                    class="underline print:no-underline"
+                  >
+                    <strong>{college}</strong>
+                  </a>
+                ) : (
+                  <strong>{college}</strong>
+                )}
+              </h3>
+              <span>{major}</span>
+              <span>{degree}</span>
+            </div>
+            <ul class="flex list-inside list-disc flex-col gap-1">
+              <li
+                set:html={`${t({
+                  en: 'GPA:&nbsp;',
+                  'zh-cn': '绩点：',
+                })}<strong>${GPA}</strong>`}
+              />
+              <li
+                set:html={`${t({
+                  en: 'Ranking:&nbsp;',
+                  'zh-cn': '排名：',
+                })}<strong>${ranking}</strong>`}
+              />
+              <li
+                set:html={`${t({
+                  en: 'Awards:&nbsp;',
+                  'zh-cn': '奖项：',
+                })}${honors.join('&nbsp;/&nbsp;')}`}
+              />
+              <li
+                set:html={`${t({
+                  en: 'Main Courses:&nbsp;',
+                  'zh-cn': '主修课程：',
+                })}${mainCourses.join('&nbsp;/&nbsp;')}`}
+              />
+              <li
+                set:html={`${t({
+                  en: 'Remark:&nbsp;',
+                  'zh-cn': '备注：',
+                })}${remark}`}
+              />
+            </ul>
+          </li>
+        ),
+      )
+    }
+  </ol>
+</Section>

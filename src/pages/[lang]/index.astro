@@ -1,0 +1,53 @@
+---
+import BasicInformation from '@/components/basic-information.astro';
+import Credentials from '@/components/credentials.astro';
+import Education from '@/components/education.astro';
+import Intention from '@/components/intention.astro';
+import Links from '@/components/links.astro';
+import ProjectExperience from '@/components/project-experience.astro';
+import Skills from '@/components/skills.astro';
+import WorkExperience from '@/components/work-experience.astro';
+import { LOCALES } from '@/i18n';
+import Layout from '@/layouts/layout.astro';
+
+export const getStaticPaths = () =>
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }));
+---
+
+<Layout className="scroll-pt-14" showPrintButton={true}>
+  <main
+    class="container mx-auto max-w-3xl space-y-8 p-4 font-sans opacity-0 print:space-y-4"
+  >
+    <BasicInformation />
+    <Links />
+    <Education />
+    <Credentials />
+    <WorkExperience />
+    <ProjectExperience />
+    <Skills />
+    <Intention />
+  </main>
+</Layout>
+
+<script>
+  import { animate, inView, stagger } from 'motion';
+
+  inView(
+    'main',
+    (element) => {
+      animate(
+        element,
+        { opacity: [0, 1], y: [50, 0] },
+        { ease: [0.39, 0.24, 0.3, 1], duration: 1 },
+      );
+      animate(
+        element.querySelectorAll('section'),
+        { opacity: [0, 1], y: [25, 0] },
+        { type: 'spring', delay: stagger(0.25, { startDelay: 0.25 }) },
+      );
+    },
+    { amount: 0 },
+  );
+</script>

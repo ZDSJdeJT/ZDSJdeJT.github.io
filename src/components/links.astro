@@ -1,0 +1,84 @@
+---
+import { Section } from '@/components/section';
+import { EMAIL } from '@/consts';
+import { useTranslations, type Lang } from '@/i18n';
+
+const currentLocale = Astro.currentLocale as Lang;
+
+const t = useTranslations(currentLocale);
+
+const email = t(EMAIL);
+
+type Item = {
+  label: string;
+  value: string;
+  link?: string;
+};
+
+const links: Item[] = [
+  {
+    label: t({
+      en: 'Email:&nbsp;',
+      'zh-cn': '邮箱：',
+    }),
+    value: email,
+    link: `mailto:${email}`,
+  },
+  {
+    label: t({
+      en: 'Blog:&nbsp;',
+      'zh-cn': '博客：',
+    }),
+    value: 'https://i-am-echo.onrender.com/',
+  },
+  {
+    label: t({
+      en: 'Github:&nbsp;',
+      'zh-cn': 'Github：',
+    }),
+    value: 'https://github.com/ZDSJdeJT/',
+  },
+];
+---
+
+<Section
+  id="links"
+  title={t({
+    en: 'Links',
+    'zh-cn': '链接',
+  })}
+  subtitle="🔗"
+>
+  <ul class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
+    {
+      links.map(({ label, value, link }) => (
+        <li class="flex items-center">
+          <span class="whitespace-nowrap" set:html={label} />
+          <span>
+            {link ? (
+              <a
+                href={link}
+                target="_blank"
+                rel={
+                  link.startsWith('http') ? 'noopener noreferrer' : undefined
+                }
+                class="underline print:no-underline"
+                set:html={value}
+              />
+            ) : (
+              <a
+                href={value}
+                target="_blank"
+                rel={
+                  value.startsWith('http') ? 'noopener noreferrer' : undefined
+                }
+                class="underline print:no-underline"
+                set:html={value}
+              />
+            )}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</Section>

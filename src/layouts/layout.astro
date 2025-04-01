@@ -1,0 +1,115 @@
+---
+import { EasterEgg } from '@/components/easter-egg';
+import Footer from '@/components/footer.astro';
+import Header from '@/components/header.astro';
+import { LocaleSuggest } from '@/components/i18n/locale-suggest';
+import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts';
+import { getLocalePaths, type Lang, LOCALES, useTranslations } from '@/i18n';
+
+import '@/styles/globals.css';
+
+interface Props {
+  className?: string;
+  title?: string;
+  description?: string;
+  showLocaleSuggest?: boolean;
+  showHeader?: boolean;
+  showPrintButton?: boolean;
+}
+
+const {
+  className,
+  title,
+  description,
+  showLocaleSuggest = true,
+  showHeader = true,
+  showPrintButton = false,
+} = Astro.props;
+
+const currentLocale = Astro.currentLocale as Lang;
+
+const lang = LOCALES[currentLocale].lang || currentLocale;
+const dir = LOCALES[currentLocale].dir;
+
+const t = useTranslations(currentLocale);
+
+const localeTitle = title ? `${title} - ${t(SITE_TITLE)}` : t(SITE_TITLE);
+const localeDescription = description || t(SITE_DESCRIPTION);
+---
+
+<html lang={lang} dir={dir} class={className}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <meta name="description" content={localeDescription} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {
+      getLocalePaths(Astro.url).map(({ lang, path }) => (
+        <>
+          <link
+            rel="alternate"
+            hreflang={LOCALES[lang].lang || lang}
+            href={`${Astro.site?.origin}${path}`}
+          />
+          <link
+            rel="alternate"
+            type="application/rss+xml"
+            title={localeTitle}
+            href={`${Astro.site?.origin}/${lang}/rss.xml`}
+          />
+        </>
+      ))
+    }
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href={`/site-${currentLocale}.webmanifest`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={localeTitle} />
+    <meta property="og:site_name" content={localeTitle} />
+    <meta property="og:description" content={localeDescription} />
+    <meta
+      property="og:image"
+      content={`${Astro.site}${currentLocale}/ogp.png`}
+    />
+    <meta property="og:url" content={Astro.url} />
+    <meta
+      property="og:locale"
+      content={LOCALES[currentLocale].lang || currentLocale}
+    />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@echo_hi" />
+
+    <title>{localeTitle}</title>
+  </head>
+
+  <body class="min-h-screen font-mono">
+    {
+      showLocaleSuggest && (
+        <LocaleSuggest
+          client:load
+          currentLocale={currentLocale}
+          title={t({
+            en: 'Language Suggestion',
+            'zh-cn': '语言建议',
+          })}
+          closeButtonLabel={t({
+            en: 'Close',
+            'zh-cn': '关闭',
+          })}
+        />
+      )
+    }
+    {showHeader && <Header showPrintButton={showPrintButton} />}
+    <slot />
+    <Footer />
+    <EasterEgg client:load message={t(SITE_TITLE)} />
+  </body>
+</html>

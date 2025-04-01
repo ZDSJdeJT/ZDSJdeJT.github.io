@@ -1,0 +1,179 @@
+---
+import { Section } from '@/components/section';
+import { useTranslations, type Lang } from '@/i18n';
+
+const currentLocale = Astro.currentLocale as Lang;
+
+const t = useTranslations(currentLocale);
+
+type Item = {
+  label: string;
+  details: string[];
+};
+
+const skills: Item[] = [
+  {
+    label: t({
+      en: 'Frontend Development',
+      'zh-cn': '前端开发',
+    }),
+    details: [
+      t({
+        en: 'Proficient in <strong>HTML5</strong>, <strong>CSS3</strong>, <strong>JavaScript/TypeScript</strong>, and <strong>Tailwind</strong>, with solid knowledge of frontend fundamentals and tools.',
+        'zh-cn':
+          '熟练掌握<strong>HTML5</strong>、<strong>CSS3</strong>、<strong>JavaScript/TypeScript</strong>和<strong>Tailwind</strong>等前端基础知识/工具。',
+      }),
+      t({
+        en: 'Skilled in <strong>Vue2/3</strong> and <strong>React</strong>, capable of efficiently developing highly accurate, responsive SPA applications based on design specifications.',
+        'zh-cn':
+          '熟练掌握<strong>Vue2/3</strong>和<strong>React</strong>，能够高效开发高度还原设计稿的响应式SPA应用。',
+      }),
+      t({
+        en: 'Experienced in <strong>Next.js</strong> and <strong>Astro</strong> for SSR/SSG, enabling the development of SEO-friendly, highly accurate static pages and full-stack applications.',
+        'zh-cn':
+          '熟练掌握<strong>Next.js</strong>和<strong>Astro</strong>等SSR/SSG框架，能够高效开发SEO友好、高度还原设计稿的响应式静态页面或全栈应用。',
+      }),
+      t({
+        en: 'Proficient in cross-platform technologies such as <strong>React Native</strong> and <strong>UniApp</strong>, capable of building high-performance mobile applications.',
+        'zh-cn':
+          '熟练掌握<strong>React Native</strong>和<strong>UniApp</strong>等跨端技术，能够高效开发跨平台移动应用程序。',
+      }),
+      t({
+        en: 'Skilled in configuring and using <strong>ESLint</strong>, <strong>Prettier</strong>, and <strong>Biome</strong> to maintain code quality and readability.',
+        'zh-cn':
+          '熟练掌握<strong>Eslint</strong>、<strong>Prettier</strong>和<strong>Biome</strong>的配置和使用，能够利用它们有效地保证代码的质量和可维护性。',
+      }),
+      t({
+        en: 'Familiar with cross-platform desktop application development using <strong>Electron</strong> and <strong>Tauri</strong>.',
+        'zh-cn':
+          '熟悉<strong>Electron</strong>和<strong>Tauri</strong>等跨端技术，能够高效开发跨平台桌面应用程序。',
+      }),
+      t({
+        en: 'Experienced in configuring and optimizing build tools such as <strong>Vite</strong> and <strong>Rsbuild</strong>.',
+        'zh-cn':
+          '熟悉<strong>Vite</strong>和<strong>Rsbuild</strong>等构建工具的配置和使用。',
+      }),
+      t({
+        en: 'Familiar with performance testing tools such as <strong>React Scan</strong> and <strong>Unlighthouse</strong>.',
+        'zh-cn':
+          '熟悉<strong>React Scan</strong>和<strong>Unlighthouse</strong>等性能测试工具的使用。',
+      }),
+      t({
+        en: 'Experienced in writing unit and end-to-end tests using <strong>Jest</strong> and <strong>Puppeteer</strong>.',
+        'zh-cn':
+          '熟悉<strong>Jest</strong>和<strong>Puppeteer</strong>等测试框架/工具的使用，能够高效编写单元测试和E2E测试。',
+      }),
+      t({
+        en: 'Basic understanding and hands-on experience with 2D rendering engine <strong>Matter.js</strong> and 3D rendering engine <strong>Three.js</strong>.',
+        'zh-cn':
+          '对2D渲染引擎<strong>Matter.js</strong>和3D渲染引擎<strong>Three.js</strong>有基本了解和实践。',
+      }),
+      t({
+        en: 'Basic understanding and hands-on experience with animation libraries <strong>GSAP</strong> and <strong>Motion</strong>.',
+        'zh-cn':
+          '对动画库<strong>GSAP</strong>和<strong>Motion</strong>有基本了解和实践。',
+      }),
+      t({
+        en: 'Familiar with <strong>monorepo</strong> architecture and capable of setting up monorepo projects using <strong>pnpm</strong> or <strong>Bun</strong>.',
+        'zh-cn':
+          '对<strong>monorepo</strong>有基本了解和实践，能够使用<strong>pnpm</strong>或<strong>Bun</strong>快速搭建monorepo项目。',
+      }),
+      t({
+        en: 'Basic understanding of browser extension development.',
+        'zh-cn': '对浏览器扩展开发有基本了解和实践。',
+      }),
+    ],
+  },
+  {
+    label: t({
+      en: 'Backend Development',
+      'zh-cn': '后端开发',
+    }),
+    details: [
+      t({
+        en: 'Proficient in <strong>JavaScript/TypeScript</strong> and experienced in building efficient backend services with <strong>Nest.js</strong> and <strong>Hono</strong>.',
+        'zh-cn':
+          '熟练掌握<strong>JavaScript/TypeScript</strong>，能够使用<strong>Nest</strong>、<strong>Hono</strong>等框架构建高效的后端服务。',
+      }),
+      t({
+        en: 'Familiar with both NoSQL databases (<strong>MongoDB</strong>, <strong>Redis</strong>) and relational databases (<strong>MySQL</strong>).',
+        'zh-cn':
+          '熟悉非关系型数据库<strong>MongoDB</strong>、<strong>Redis</strong>和关系型数据库<strong>MySQL</strong>。',
+      }),
+      t({
+        en: 'Familiar with <strong>Java</strong> and capable of developing efficient backend services using <strong>Spring Boot</strong>.',
+        'zh-cn':
+          '熟悉<strong>Java</strong>，能够使用<strong>Spring Boot</strong>框架构建高效的后端服务。',
+      }),
+      t({
+        en: 'Experienced in using ORM libraries such as <strong>MyBatis-Plus</strong>, <strong>TypeORM</strong>, and <strong>Drizzle</strong>.',
+        'zh-cn':
+          '熟悉<strong>MyBatis-Plus</strong>、<strong>TypeORM</strong>和<strong>Drizzle</strong>等ORM库的使用。',
+      }),
+      t({
+        en: 'Basic understanding and hands-on experience with <strong>Spring Cloud Alibaba</strong> ecosystem.',
+        'zh-cn':
+          '对<strong>Spring Cloud Alibaba生态系统</strong>有基本了解和实践。',
+      }),
+      t({
+        en: 'Basic understanding and hands-on experience with message queues like <strong>RabbitMQ</strong>.',
+        'zh-cn': '对消息队列<strong>RabbitMQ</strong>有基本了解和实践。',
+      }),
+    ],
+  },
+  {
+    label: t({
+      en: 'Other',
+      'zh-cn': '其他',
+    }),
+    details: [
+      t({
+        en: 'Proficient in using AI tools such as <strong>ChatGPT</strong>, <strong>Cursor</strong>, and <strong>V0</strong> to enhance development efficiency and experience.',
+        'zh-cn':
+          '熟练掌握<strong>ChatGPT</strong>、<strong>Cursor</strong>和<strong>V0</strong>等AI工具的使用，能够利用它们提升开发效率和开发体验。',
+      }),
+      t({
+        en: 'Familiar with <strong>Docker</strong> for application containerization and deployment. Basic understanding and hands-on experience with <strong>Kubernetes</strong>.',
+        'zh-cn':
+          '熟悉<strong>Docker</strong>，能够使用<strong>Docker</strong>进行应用的构建和部署，对<strong>Kubernetes</strong>有基本了解和实践。',
+      }),
+      t({
+        en: 'Experienced with <strong>Git</strong> and follows best commit practices (primarily using <strong>commitizen</strong>). Contributed PRs to the <strong>Planka</strong> project and <strong>Astro</strong> documentation, which were successfully merged.',
+        'zh-cn':
+          '熟悉<strong>Git</strong>操作，有着良好的提交规范（目前主要使用<strong>commitizen</strong>），曾向<strong>Planka</strong>项目和<strong>Astro</strong>的文档项目提交过PR并得到合并。',
+      }),
+      t({
+        en: 'Strong UI/UX awareness and ability to provide valuable suggestions for optimization in design review meetings.',
+        'zh-cn':
+          '对构建用户界面有自己的看法和理解，能够在需求评审会上提出自己的修改/优化意见。',
+      }),
+    ],
+  },
+];
+---
+
+<Section
+  id="skills"
+  title={t({
+    en: 'Skills',
+    'zh-cn': '专业技能',
+  })}
+  subtitle="💪"
+>
+  <ul class="flex flex-col gap-4">
+    {
+      skills.map(({ label, details }) => (
+        <li class="flex flex-col gap-2">
+          <h3>
+            <strong>{label}</strong>
+          </h3>
+          <ul class="flex list-inside list-disc flex-col gap-1">
+            {details.map((item) => (
+              <li set:html={item} />
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+</Section>

@@ -1,0 +1,32 @@
+---
+import { DEFAULT_LOCALE, LOCALES } from '@/i18n';
+import Layout from '@/layouts/layout.astro';
+
+const langs = Object.keys(LOCALES);
+const baseUrl = import.meta.env.PROD ? Astro.site : '/';
+const defaultLocale = DEFAULT_LOCALE;
+---
+
+<noscript>
+  <meta http-equiv="refresh" content={`0;url=${baseUrl + DEFAULT_LOCALE}/`} />
+</noscript>
+
+<script is:inline define:vars={{ langs, baseUrl, defaultLocale }}>
+  if (localStorage.selectedLang && langs.includes(localStorage.selectedLang)) {
+    location.href = `${baseUrl + localStorage.selectedLang}/`;
+  } else {
+    const browserLang = navigator.language.toLowerCase();
+
+    if (langs.includes(browserLang)) {
+      location.href = `${baseUrl + browserLang}/`;
+    } else if (langs.includes(browserLang.split('-')[0])) {
+      location.href = `${baseUrl + browserLang.split('-')[0]}/`;
+    } else {
+      location.href = `${baseUrl + defaultLocale}/`;
+    }
+  }
+</script>
+
+<Layout showLocaleSuggest={false} showHeader={false}>
+  <h1>...</h1>
+</Layout>
