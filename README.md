@@ -49,10 +49,11 @@ Feel free to check [our documentation](https://docs.astro.build) or jump into ou
 
 ## 🎉 Lighthouse
 
-![Lighthouse](/screenshots/lighthouse.png?raw=true&sanitize=true 'Lighthouse')
+![Lighthouse](/screenshots/lighthouse.png?raw=true&sanitize=true)
 
 ## 🙇‍ Thanks
 
 Special thanks to the following projects:
 
 - [astro-i18n-starter](https://github.com/psephopaiktes/astro-i18n-starter/) - A minimal i18n astro theme
+- [cv](https://github.com/BartoszJarocki/cv/) - Print-friendly, minimalist CV page
